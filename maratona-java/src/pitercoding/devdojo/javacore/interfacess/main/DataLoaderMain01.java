@@ -1,8 +1,8 @@
-package pitercoding.devdojo.javacore.interfaces.main;
+package pitercoding.devdojo.javacore.interfacess.main;
 
-import pitercoding.devdojo.javacore.interfaces.dominio.DataLoader;
-import pitercoding.devdojo.javacore.interfaces.dominio.DatabaseLoader;
-import pitercoding.devdojo.javacore.interfaces.dominio.FileLoader;
+import pitercoding.devdojo.javacore.interfacess.dominio.DataLoader;
+import pitercoding.devdojo.javacore.interfacess.dominio.DatabaseLoader;
+import pitercoding.devdojo.javacore.interfacess.dominio.FileLoader;
 
 public class DataLoaderMain01 {
     public static void main(String[] args) {

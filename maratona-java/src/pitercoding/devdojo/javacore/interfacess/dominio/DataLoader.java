@@ -1,4 +1,4 @@
-package pitercoding.devdojo.javacore.interfaces.dominio;
+package pitercoding.devdojo.javacore.interfacess.dominio;
 
 public interface DataLoader {
 

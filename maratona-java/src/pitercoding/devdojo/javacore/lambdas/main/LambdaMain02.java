@@ -9,7 +9,7 @@ public class LambdaMain02 {
     public static void main(String[] args) {
         List<String> names = List.of("Natsu", "Allucard");
         List<Integer> integers = map(names, name -> name.length());
-        List<String> map = map(names, n -> n.toUpperCase());
+        List<String> map = map(names, String::toUpperCase); // method reference
 
         System.out.println(integers);
         System.out.println(map);

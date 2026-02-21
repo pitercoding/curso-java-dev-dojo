@@ -9,14 +9,14 @@ import java.util.concurrent.TimeUnit;
 public class StoreServiceWithDiscount {
 
     public String getPriceSync(String name){
-        System.out.printf("capturando preco para %s%n", name);
+        System.out.printf("capturando preço para %s%n", name);
         Double price = priceGen();
         Discount.Code code = Discount.Code.values()[ThreadLocalRandom.current().nextInt(Discount.Code.values().length)];
         return String.format("%s:%.2f:%s", name, price,code);
     }
 
     private double priceGen(){
-        System.out.printf("%s gerando prećo %n ", Thread.currentThread().getName());
+        System.out.printf("%s gerando preço %n ", Thread.currentThread().getName());
         delay();
         return ThreadLocalRandom.current().nextInt(1, 500) *10;
     }

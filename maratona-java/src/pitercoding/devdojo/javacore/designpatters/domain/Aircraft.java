@@ -19,4 +19,8 @@ public final class Aircraft {
     public boolean bookSeat(String seatNumber) {
         return availableSeats.remove(seatNumber);
     }
+
+    public String getModel() {
+        return model;
+    }
 }

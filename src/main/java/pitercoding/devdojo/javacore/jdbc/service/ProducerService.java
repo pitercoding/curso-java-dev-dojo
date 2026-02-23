@@ -3,6 +3,8 @@ package pitercoding.devdojo.javacore.jdbc.service;
 import pitercoding.devdojo.javacore.jdbc.domain.Producer;
 import pitercoding.devdojo.javacore.jdbc.repository.ProducerRepository;
 
+import java.util.List;
+
 public class ProducerService {
 
     public static void save(Producer producer) {
@@ -17,6 +19,31 @@ public class ProducerService {
     public static void update(Producer producer) {
         requireValidId(producer.getId());
         ProducerRepository.update(producer);
+    }
+
+    public static List<Producer> findAll() {
+        return ProducerRepository.findAll();
+    }
+
+    public static List<Producer> findByName(String name) {
+        return ProducerRepository.findByName(name);
+    }
+
+    public static void showProducerMetaData() {
+        ProducerRepository.showProducerMetaData();
+    }
+
+    public static void showTypeScrollWorking() {
+        ProducerRepository.showTypeScrollWorking();
+    }
+
+    public static void showDriverMetaData() {
+        ProducerRepository.showDriverMetaData();
+    }
+
+
+    public static List<Producer> findByNameAndUpdateToUpperCase(String name) {
+        return ProducerRepository.findByNameAndUpdateToUpperCase(name);
     }
 
     private static void requireValidId(Integer id) {

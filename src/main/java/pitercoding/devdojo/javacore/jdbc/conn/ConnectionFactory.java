@@ -1,5 +1,7 @@
 package pitercoding.devdojo.javacore.jdbc.conn;
 
+import javax.sql.rowset.JdbcRowSet;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,5 +21,16 @@ public class ConnectionFactory {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("MySQL JDBC driver not found on the classpath.", e);
         }
+    }
+
+    public static JdbcRowSet getJdbcRowSet() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/anime_store";
+        String username = "root";
+        String password = "root";
+        JdbcRowSet jdbcRowSet = RowSetProvider.newFactory().createJdbcRowSet();
+        jdbcRowSet.setUrl(url);
+        jdbcRowSet.setUsername(username);
+        jdbcRowSet.setPassword(password);
+        return jdbcRowSet;
     }
 }

@@ -1,5 +1,6 @@
 package pitercoding.devdojo.javacore.jdbc.service;
 
+import pitercoding.devdojo.javacore.jdbc.conn.ConnectionFactory;
 import pitercoding.devdojo.javacore.jdbc.domain.Producer;
 import pitercoding.devdojo.javacore.jdbc.repository.ProducerRepository;
 
@@ -9,6 +10,10 @@ public class ProducerService {
 
     public static void save(Producer producer) {
         ProducerRepository.save(producer);
+    }
+
+    public static void saveTransaction(List<Producer> producers) {
+        ProducerRepository.saveTransaction(producers);
     }
 
     public static void delete(Integer id) {

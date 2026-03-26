@@ -4,10 +4,13 @@ import pitercoding.devdojo.javacore.jdbc.conn.ConnectionFactory;
 import pitercoding.devdojo.javacore.jdbc.domain.Producer;
 import pitercoding.devdojo.javacore.jdbc.listener.CustomRowSetListener;
 
+import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.JdbcRowSet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ProducerRepositoryRowSet {
 
@@ -57,6 +60,25 @@ public class ProducerRepositoryRowSet {
             jrs.updateString("name", producer.getName());
             jrs.updateRow();
         } catch (SQLException e) {
+            throw  new RuntimeException(e);
+        }
+    }
+
+    public static void updateCachedRowSet(Producer producer) {
+        String sql = "SELECT * FROM producer WHERE (`id` = ?);";
+        try(CachedRowSet crs = ConnectionFactory.getCashedRowSet();
+            Connection connection = ConnectionFactory.getConnection()) {
+            connection.setAutoCommit(false);
+            crs.addRowSetListener(new CustomRowSetListener());
+            crs.setCommand(sql);
+            crs.setInt(1, producer.getId());
+            crs.execute(connection);
+            if (!crs.next()) return;
+            crs.updateString("name", producer.getName());
+            crs.updateRow();
+            TimeUnit.SECONDS.sleep(10);
+            crs.acceptChanges(connection);
+        } catch (SQLException | InterruptedException e) {
             throw  new RuntimeException(e);
         }
     }

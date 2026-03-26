@@ -11,11 +11,10 @@ import java.util.List;
 public class ConnectionFactoryApplication02 {
     public static void main(String[] args) {
 
-        Producer producerToUpdate = Producer.builder().id(1).name("MAD").build();
-        ProducerServiceRowSet.updateJdbcRowSet(producerToUpdate);
-        log.info("---------------------------");
-
-        List<Producer> producers = ProducerRepositoryRowSet.findByNameJdbcRowSet("");
-        log.info("producers:{}", producers);
+        Producer producerToUpdate = Producer.builder().id(1).name("MAD2").build();
+        ProducerServiceRowSet.updateCachedRowSet(producerToUpdate);
+//        log.info("---------------------------");
+//        List<Producer> producers = ProducerRepositoryRowSet.findByNameJdbcRowSet("");
+//        log.info("producers:{}", producers);
     }
 }

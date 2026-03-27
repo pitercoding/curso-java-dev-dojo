@@ -1,7 +1,7 @@
 package pitercoding.devdojo.javacore.jdbc.repository;
 
 import pitercoding.devdojo.javacore.jdbc.conn.ConnectionFactory;
-import pitercoding.devdojo.javacore.jdbc.domain.Producer;
+import pitercoding.devdojo.javacore.jdbc.domain.Anime;
 import pitercoding.devdojo.javacore.jdbc.listener.CustomRowSetListener;
 
 import javax.sql.rowset.CachedRowSet;
@@ -14,16 +14,16 @@ import java.util.concurrent.TimeUnit;
 
 public class ProducerRepositoryRowSet {
 
-    public static List<Producer> findByNameJdbcRowSet(String name) {
+    public static List<Anime> findByNameJdbcRowSet(String name) {
         String sql = "SELECT * FROM anime_store.producer WHERE name LIKE ?;";
-        List<Producer> producers = new ArrayList<>();
+        List<Anime> producers = new ArrayList<>();
         try(JdbcRowSet jrs = ConnectionFactory.getJdbcRowSet()) {
             jrs.addRowSetListener(new CustomRowSetListener());
             jrs.setCommand(sql);
             jrs.setString(1, "%" + name + "%");
             jrs.execute();
             while (jrs.next()) {
-                Producer producer = Producer.builder()
+                Anime producer = Anime.builder()
                         .id(jrs.getInt("id"))
                         .name(jrs.getString("name"))
                         .build();
@@ -48,9 +48,9 @@ public class ProducerRepositoryRowSet {
 //        }
 //    }
 
-    public static void updateJdbcRowSet(Producer producer) {
+    public static void updateJdbcRowSet(Anime producer) {
         String sql = "SELECT * FROM anime_store.producer WHERE (`id` = ?);";
-        List<Producer> producers = new ArrayList<>();
+        List<Anime> producers = new ArrayList<>();
         try(JdbcRowSet jrs = ConnectionFactory.getJdbcRowSet()) {
             jrs.addRowSetListener(new CustomRowSetListener());
             jrs.setCommand(sql);
@@ -64,7 +64,7 @@ public class ProducerRepositoryRowSet {
         }
     }
 
-    public static void updateCachedRowSet(Producer producer) {
+    public static void updateCachedRowSet(Anime producer) {
         String sql = "SELECT * FROM producer WHERE (`id` = ?);";
         try(CachedRowSet crs = ConnectionFactory.getCashedRowSet();
             Connection connection = ConnectionFactory.getConnection()) {

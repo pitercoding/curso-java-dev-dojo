@@ -1,18 +1,17 @@
 package pitercoding.devdojo.javacore.jdbc.service;
 
-import pitercoding.devdojo.javacore.jdbc.conn.ConnectionFactory;
-import pitercoding.devdojo.javacore.jdbc.domain.Producer;
+import pitercoding.devdojo.javacore.jdbc.domain.Anime;
 import pitercoding.devdojo.javacore.jdbc.repository.ProducerRepository;
 
 import java.util.List;
 
 public class ProducerService {
 
-    public static void save(Producer producer) {
+    public static void save(Anime producer) {
         ProducerRepository.save(producer);
     }
 
-    public static void saveTransaction(List<Producer> producers) {
+    public static void saveTransaction(List<Anime> producers) {
         ProducerRepository.saveTransaction(producers);
     }
 
@@ -21,25 +20,25 @@ public class ProducerService {
         ProducerRepository.delete(id);
     }
 
-    public static void update(Producer producer) {
+    public static void update(Anime producer) {
         requireValidId(producer.getId());
         ProducerRepository.update(producer);
     }
 
-    public static void updatePreparedStatement(Producer producer) {
+    public static void updatePreparedStatement(Anime producer) {
         requireValidId(producer.getId());
         ProducerRepository.updatePreparedStatement(producer);
     }
 
-    public static List<Producer> findAll() {
+    public static List<Anime> findAll() {
         return ProducerRepository.findAll();
     }
 
-    public static List<Producer> findByName(String name) {
+    public static List<Anime> findByName(String name) {
         return ProducerRepository.findByName(name);
     }
 
-    public static List<Producer> findByNamePreparedStatement(String name) {
+    public static List<Anime> findByNamePreparedStatement(String name) {
         return ProducerRepository.findByNamePreparedStatement(name);
     }
 
@@ -56,11 +55,11 @@ public class ProducerService {
     }
 
 
-    public static List<Producer> findByNameAndUpdateToUpperCase(String name) {
+    public static List<Anime> findByNameAndUpdateToUpperCase(String name) {
         return ProducerRepository.findByNameAndUpdateToUpperCase(name);
     }
 
-    public static List<Producer> findByNameAndInsertWhenNotFound(String name) {
+    public static List<Anime> findByNameAndInsertWhenNotFound(String name) {
         return ProducerRepository.findByNameAndInsertWhenNotFound(name);
     }
 

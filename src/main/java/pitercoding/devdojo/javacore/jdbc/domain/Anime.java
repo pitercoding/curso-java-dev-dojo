@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public final class Producer {
+public final class Anime {
     private final Integer id;
     private final String name;
 }

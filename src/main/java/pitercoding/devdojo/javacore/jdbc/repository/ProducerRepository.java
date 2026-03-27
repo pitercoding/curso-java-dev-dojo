@@ -2,7 +2,7 @@ package pitercoding.devdojo.javacore.jdbc.repository;
 
 import lombok.extern.log4j.Log4j2;
 import pitercoding.devdojo.javacore.jdbc.conn.ConnectionFactory;
-import pitercoding.devdojo.javacore.jdbc.domain.Producer;
+import pitercoding.devdojo.javacore.jdbc.domain.Anime;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 @Log4j2
 public class ProducerRepository {
 
-    public static void save(Producer producer) {
+    public static void save(Anime producer) {
         String sql = "INSERT INTO `anime_store`.`producer` (`name`) VALUES ('%s');".formatted(producer.getName());
         try (Connection conn = ConnectionFactory.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -23,7 +23,7 @@ public class ProducerRepository {
         }
     }
 
-    public static void saveTransaction(List<Producer> producers) {
+    public static void saveTransaction(List<Anime> producers) {
         try (Connection conn = ConnectionFactory.getConnection()) {
             conn.setAutoCommit(false);
             prepareStatementSaveTransaction(conn, producers);
@@ -34,10 +34,10 @@ public class ProducerRepository {
         }
     }
 
-    private static void prepareStatementSaveTransaction(Connection conn, List<Producer> producers) throws SQLException {
+    private static void prepareStatementSaveTransaction(Connection conn, List<Anime> producers) throws SQLException {
         String sql = "INSERT INTO `anime_store`.`producer` (`name`) VALUES ( ? );";
         boolean shouldRollback = false;
-        for (Producer p : producers) {
+        for (Anime p : producers) {
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 log.info("Inserting producer '{}' in the database.", p.getName());
                 ps.setString(1, p.getName());
@@ -67,7 +67,7 @@ public class ProducerRepository {
         }
     }
 
-    public static void update(Producer producer) {
+    public static void update(Anime producer) {
         String sql = "UPDATE `anime_store`.`producer` SET `name` = '%s' WHERE (`id` = '%d');".formatted(producer.getName(), producer.getId());
         try (Connection conn = ConnectionFactory.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -79,7 +79,7 @@ public class ProducerRepository {
         }
     }
 
-    public static void updatePreparedStatement(Producer producer) {
+    public static void updatePreparedStatement(Anime producer) {
         try (Connection conn = ConnectionFactory.getConnection()) {
             PreparedStatement ps = prepareStatementUpdate(conn, producer);
             int rowsAffected = ps.executeUpdate();
@@ -90,7 +90,7 @@ public class ProducerRepository {
         }
     }
 
-    private static PreparedStatement prepareStatementUpdate(Connection conn, Producer producer) throws SQLException {
+    private static PreparedStatement prepareStatementUpdate(Connection conn, Anime producer) throws SQLException {
         String sql = "UPDATE `anime_store`.`producer` SET `name` = ? WHERE (`id` = ?);";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, producer.getName());
@@ -98,21 +98,21 @@ public class ProducerRepository {
         return ps;
     }
 
-    public static List<Producer> findAll() {
+    public static List<Anime> findAll() {
         log.info("Finding all Producers in the database.");
         return findByName("");
     }
 
-    public static List<Producer> findByName(String name) {
+    public static List<Anime> findByName(String name) {
         log.info("Finding Producers by name in the database.");
         String sql = "SELECT * FROM anime_store.producer WHERE name LIKE '%%%s%%';"
                 .formatted(name);
-        List<Producer> producers = new ArrayList<>();
+        List<Anime> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                Producer producer = Producer
+                Anime producer = Anime
                         .builder()
                         .id(rs.getInt("id"))
                         .name(rs.getString("name"))
@@ -125,15 +125,15 @@ public class ProducerRepository {
         return producers;
     }
 
-    public static List<Producer> findByNamePreparedStatement(String name) {
+    public static List<Anime> findByNamePreparedStatement(String name) {
         log.info("Finding Producers by name:");
         String sql = "SELECT * FROM anime_store.producer WHERE name LIKE ?;";
-        List<Producer> producers = new ArrayList<>();
+        List<Anime> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = prepareStatementFindByName(conn, name);
              ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
-                Producer producer = Producer
+                Anime producer = Anime
                         .builder()
                         .id(rs.getInt("id"))
                         .name(rs.getString("name"))
@@ -215,19 +215,19 @@ public class ProducerRepository {
 
             log.info("Last row? '{}'", rs.last());
             log.info("Row number? '{}'", rs.getRow());
-            log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            log.info(Anime.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
 
             log.info("First row? '{}'", rs.first());
             log.info("Row number? '{}'", rs.getRow());
-            log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            log.info(Anime.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
 
             log.info("Row Absolute? '{}'", rs.absolute(2));
             log.info("Row number? '{}'", rs.getRow());
-            log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            log.info(Anime.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
 
             log.info("Row Relative? '{}'", rs.relative(-1));
             log.info("Row number? '{}'", rs.getRow());
-            log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            log.info(Anime.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
 
             log.info("Is last? '{}'", rs.isLast());
             log.info("Row number? '{}'", rs.getRow());
@@ -240,7 +240,7 @@ public class ProducerRepository {
             rs.next();
             log.info("After last row? '{}'", rs.isAfterLast());
             while (rs.previous()) {
-                log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+                log.info(Anime.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
             }
 
         } catch (SQLException e) {
@@ -248,11 +248,11 @@ public class ProducerRepository {
         }
     }
 
-    public static List<Producer> findByNameAndUpdateToUpperCase(String name) {
+    public static List<Anime> findByNameAndUpdateToUpperCase(String name) {
         log.info("Finding Producers by name and updating to upper case.");
         String sql = "SELECT * FROM anime_store.producer WHERE name LIKE '%%%s%%';"
                 .formatted(name);
-        List<Producer> producers = new ArrayList<>();
+        List<Anime> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getConnection()) {
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery(sql);
@@ -260,7 +260,7 @@ public class ProducerRepository {
                 rs.updateString("name", rs.getString("name").toUpperCase());
                 //rs.cancelRowUpdates(); para desfazer
                 rs.updateRow();
-                Producer producer = Producer
+                Anime producer = Anime
                         .builder()
                         .id(rs.getInt("id"))
                         .name(rs.getString("name"))
@@ -273,11 +273,11 @@ public class ProducerRepository {
         return producers;
     }
 
-    public static List<Producer> findByNameAndInsertWhenNotFound(String name) {
+    public static List<Anime> findByNameAndInsertWhenNotFound(String name) {
         log.info("Finding Producers by name.");
         String sql = "SELECT * FROM anime_store.producer WHERE name LIKE '%%%s%%';"
                 .formatted(name);
-        List<Producer> producers = new ArrayList<>();
+        List<Anime> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getConnection()) {
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery(sql);
@@ -314,10 +314,10 @@ public class ProducerRepository {
         rs.insertRow();
     }
 
-    private static Producer getProducer(ResultSet rs) throws SQLException {
+    private static Anime getProducer(ResultSet rs) throws SQLException {
         rs.beforeFirst();
         rs.next();
-        Producer producer = Producer
+        Anime producer = Anime
                 .builder()
                 .id(rs.getInt("id"))
                 .name(rs.getString("name"))

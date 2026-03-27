@@ -2,26 +2,29 @@ package pitercoding.devdojo.projetofinalcrud;
 
 import pitercoding.devdojo.projetofinalcrud.service.ProducerService;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ProjetoFinalCrudApplication {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
         int op;
         while (true) {
             producerMenu();
-            op = Integer.parseInt(scanner.nextLine());
+            op = Integer.parseInt(SCANNER.nextLine());
             if (op == 0) break;
-            ProducerService.buildMenu(op);
+            ProducerService.menu(op);
         }
     }
 
     private static void producerMenu() {
-        System.out.println("Type the number of your option: ");
+        System.out.println();
+        System.out.println("========= MENU =========");
         System.out.println("1. Search for producer");
+        System.out.println("2. Delete producer");
+        System.out.println("3. Save producer");
         System.out.println("0. Exit");
+        System.out.print("Type your choice: ");
     }
 }
